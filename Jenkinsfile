@@ -1,6 +1,8 @@
 ﻿pipeline {
     agent any
-     
+     environment {
+            CI = 'true'
+        }
     stages {
         stage('Build') {
             steps {
@@ -22,4 +24,4 @@
 
     }
 }
-© 2021 GitHub, Inc.
+
