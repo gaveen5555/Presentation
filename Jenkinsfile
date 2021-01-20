@@ -1,32 +1,24 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine'
-            args '-p 3001:3001'
-        }
-    }
-     environment {
-            CI = 'true'
-        }
+    agent any
     stages {
         stage('Build') {
             steps {
-                sh 'npm install'
+                sh 'ls'
+                sh './deploy.sh'
             }
         }
         stage('Test') {
-                    steps {
-                        sh "chmod +x -R ${env.WORKSPACE}"
-                        sh './jenkins/scripts/test.sh'
-                    }
-                }
-                stage('Deliver') {
-                            steps {
-                                sh './jenkins/scripts/deliver.sh'
-                                input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                                sh './jenkins/scripts/kill.sh'
-                            }
-                        }
-
+            steps {
+                echo 'Testing...'
+            }
+        }
+    }
+    post {
+        success {
+            slackSend (color: '#00FF00', message: "*Staging Deployed*\n${env.JOB_NAME} [${env.BUILD_NUMBER}]'\n${env.BUILD_URL}")
+        }
+        failure {
+            slackSend (color: '#FF0000', message: "*Staging Failed*\n${env.JOB_NAME} [${env.BUILD_NUMBER}]'\n${env.BUILD_URL}")
+        }
     }
 }
