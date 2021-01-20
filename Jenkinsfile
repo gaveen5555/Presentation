@@ -10,10 +10,10 @@ pipeline {
         }
         stage('Test') {
             steps {
-                // sh 'ls'
-                // sh "chmod +x -R ${env.WORKSPACE}"
-                // sh './test.sh'
-                echo 'Testing...'
+                sh 'ls'
+                sh "chmod +x -R ${env.WORKSPACE}"
+                sh './test.sh'
+                // echo 'Testing...'
             }
         }
     }
