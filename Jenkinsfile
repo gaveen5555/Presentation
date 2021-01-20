@@ -4,6 +4,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'ls'
+                sh "chmod +x -R ${env.WORKSPACE}"
                 sh './deploy.sh'
             }
         }
